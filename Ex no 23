@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void SCAN(int arr[], int head, int size, char direction) {
+    int distance = 0;
+    int current = head;
+    int visited[size];
+
+    for (int i = 0; i < size; i++) {
+        visited[i] = 0;
+    }
+
+    printf("Sequence of disk access: ");
+
+    while (1) {
+        int minDist = -1;
+        int nextIndex = -1;
+
+        for (int i = 0; i < size; i++) {
+            if (!visited[i]) {
+                int dist = abs(current - arr[i]);
+                if (minDist == -1 || dist < minDist) {
+                    minDist = dist;
+                    nextIndex = i;
+                }
+            }
+        }
+
+        if (nextIndex == -1) {
+            // All cylinders visited
+            break;
+        }
+
+        visited[nextIndex] = 1;
+        distance += minDist;
+
+        printf("%d ", arr[nextIndex]);
+
+        current = arr[nextIndex];
+    }
+
+    printf("\nTotal head movement: %d\n", distance);
+}
+
+int main() {
+    int size, head;
+
+    printf("Enter the number of requests: ");
+    scanf("%d", &size);
+
+    int arr[size];
+
+    printf("Enter the disk request sequence:\n");
+    for (int i = 0; i < size; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    printf("Enter the initial head position: ");
+    

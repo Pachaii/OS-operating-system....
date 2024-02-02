@@ -1,0 +1,61 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void CSCAN(int arr[], int head, int size) {
+    int distance = 0;
+    int current = head;
+    int visited[size];
+
+    for (int i = 0; i < size; i++) {
+        visited[i] = 0;
+    }
+
+    printf("Sequence of disk access: ");
+
+    // Move the head to the end in the direction of increasing cylinders
+    for (int i = current; i < size; i++) {
+        if (!visited[i]) {
+            distance += abs(current - arr[i]);
+            current = arr[i];
+            visited[i] = 1;
+            printf("%d ", arr[i]);
+        }
+    }
+
+    // Move the head to the beginning in the same direction
+    distance += abs(current - 0);
+    current = 0;
+
+    // Continue in the same direction until the end
+    for (int i = 0; i < head; i++) {
+        if (!visited[i]) {
+            distance += abs(current - arr[i]);
+            current = arr[i];
+            visited[i] = 1;
+            printf("%d ", arr[i]);
+        }
+    }
+
+    printf("\nTotal head movement: %d\n", distance);
+}
+
+int main() {
+    int size, head;
+
+    printf("Enter the number of requests: ");
+    scanf("%d", &size);
+
+    int arr[size];
+
+    printf("Enter the disk request sequence:\n");
+    for (int i = 0; i < size; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    printf("Enter the initial head position: ");
+    scanf("%d", &head);
+
+    CSCAN(arr, head, size);
+
+    return 0;
+}
